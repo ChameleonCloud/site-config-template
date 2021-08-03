@@ -1,0 +1,8 @@
+# Don't put unencrypted certs in source control
+certificates
+
+# Encryption is useless if this is checked in
+vault_password
+
+# This contains plain text passwords / secrets
+admin-openrc.sh
