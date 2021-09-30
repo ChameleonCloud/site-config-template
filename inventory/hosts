@@ -560,7 +560,7 @@ ironic
 ironic
 
 [ironic-inspector:children]
-ironic
+# Disabled; we use a separate mechanism for node property discovery
 
 [ironic-pxe:children]
 ironic
