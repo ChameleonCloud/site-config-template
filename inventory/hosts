@@ -90,6 +90,9 @@ keycloak
 [keycloak_tas_sync:children]
 keycloak
 
+[osg:children]
+control
+
 # You can explicitly specify which hosts run each project by updating the
 # groups in the sections below. Common services are grouped together.
 [chrony-server:children]
