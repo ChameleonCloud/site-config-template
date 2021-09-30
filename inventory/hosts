@@ -39,6 +39,57 @@ compute
 storage
 monitoring
 
+######################################
+# Custom Ansible playbooks
+######################################
+
+[hammers:children]
+control
+
+[docker_registry:children]
+control
+
+[frontends:children]
+control
+
+[jenkins_slave:children]
+deployment
+
+[jupyterhub:children]
+control
+
+[metric_collector:children]
+control
+
+[chameleon_usage:children]
+mariadb
+
+[chameleon_usage_jupyter:children]
+jupyterhub
+
+# Experiment precis service(s)
+[precis:children]
+control
+
+[redfish-monitor:children]
+control
+
+# Chameleon vendordata service
+[vendordata:children]
+control
+
+[keycloak:children]
+control
+
+[keycloak_server:children]
+keycloak
+
+[keycloak_db:children]
+keycloak
+
+[keycloak_tas_sync:children]
+keycloak
+
 # You can explicitly specify which hosts run each project by updating the
 # groups in the sections below. Common services are grouped together.
 [chrony-server:children]
