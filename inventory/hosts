@@ -113,6 +113,7 @@ monitoring
 
 [etcd:children]
 control
+compute
 
 [influxdb:children]
 monitoring
@@ -443,7 +444,9 @@ storage
 ironic
 
 [tgtd:children]
+compute
 storage
+ironic
 
 # Karbor
 [karbor-api:children]
