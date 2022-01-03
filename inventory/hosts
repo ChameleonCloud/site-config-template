@@ -1,36 +1,22 @@
 # These initial groups are the only groups required to be modified. The
 # additional groups are for more control of the environment.
 [control]
-# These hostname must be resolvable from your deployment host
-control01
-control02
-control03
+localhost
 
-# The above can also be specified as follows:
-#control[01:03]     ansible_user=kolla
-
-# The network nodes are where your l3-agent and loadbalancers will run
-# This can be the same as a host in the control group
 [network]
-network01
-network02
+localhost
 
 [compute]
-compute01
+localhost
 
 [monitoring]
-monitoring01
-
-# When compute nodes and control nodes use different interfaces,
-# you need to comment out "api_interface" and other interfaces from the globals.yml
-# and specify like below:
-#compute01 neutron_external_interface=eth0 api_interface=em1 storage_interface=em1 tunnel_interface=em1
+localhost
 
 [storage]
-storage01
+localhost
 
 [deployment]
-localhost       ansible_connection=local
+localhost ansible_connection=local
 
 [baremetal:children]
 control
@@ -89,9 +75,6 @@ keycloak
 
 [keycloak_tas_sync:children]
 keycloak
-
-[osg:children]
-control
 
 # You can explicitly specify which hosts run each project by updating the
 # groups in the sections below. Common services are grouped together.
@@ -235,7 +218,7 @@ control
 control
 
 [ceph:children]
-control
+storage
 
 [magnum:children]
 control
@@ -260,7 +243,6 @@ control
 
 [cyborg:children]
 control
-compute
 
 [congress:children]
 control
@@ -277,7 +259,6 @@ control
 [trove:children]
 control
 
-# Tempest
 [tempest:children]
 control
 
@@ -332,10 +313,6 @@ control
 # Word of caution: Some services are required to run on the same host to
 # function appropriately. For example, neutron-metadata-agent must run on the
 # same host as the l3-agent and (depending on configuration) the dhcp-agent.
-
-# Elasticsearch Curator
-[elasticsearch-curator:children]
-elasticsearch
 
 # Glance
 [glance-api:children]
@@ -421,7 +398,7 @@ storage
 cinder
 
 [cinder-volume:children]
-storage
+cinder
 
 # Cloudkitty
 [cloudkitty-api:children]
@@ -809,14 +786,7 @@ blazar
 
 # Prometheus
 [prometheus-node-exporter:children]
-monitoring
-control
-compute
-network
-storage
-
-[prometheus-pushgateway:children]
-monitoring
+baremetal
 
 [prometheus-mysqld-exporter:children]
 mariadb
@@ -837,7 +807,19 @@ storage
 [prometheus-alertmanager:children]
 monitoring
 
+[prometheus-ceph-exporter:children]
+ceph-mgr
+
 [prometheus-openstack-exporter:children]
+monitoring
+
+[prometheus-pushgateway:children]
+monitoring
+
+[prometheus-redis-exporter:children]
+redis
+
+[prometheus-snmp-exporter:children]
 monitoring
 
 [prometheus-elasticsearch-exporter:children]
@@ -846,8 +828,8 @@ elasticsearch
 [prometheus-blackbox-exporter:children]
 monitoring
 
-[prometheus-snmp-exporter:children]
-monitoring
+[prometheus-ipmi-exporter:children]
+ironic-conductor
 
 [masakari-api:children]
 control
@@ -876,8 +858,6 @@ doni
 [doni-worker:children]
 doni
 
-[tunelo:chilren]
+# OSG
+[osg:children]
 control
-
-[tunelo-api:children]
-tunelo
